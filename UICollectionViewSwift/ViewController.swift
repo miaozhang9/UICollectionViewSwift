@@ -148,6 +148,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.layer.cornerRadius = 4
         cell.backgroundColor = UIColor.whiteColor()
         
+        
+        
         return cell
     }
     
