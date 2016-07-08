@@ -66,7 +66,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         var btn:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(ViewController.addTapped))
         return btn
     }()
+    
+    lazy var addLeftButton:UIBarButtonItem = {
+        var btn:UIBarButtonItem = UIBarButtonItem(title: "GO", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ViewController.gotoNextVC))
+        return btn
+    }()
 
+    lazy var nextVC:NextViewController = {
+        var vc:NextViewController = NextViewController()
+        return vc
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -75,6 +85,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.title = "Collection on Swift"
         self.items.addObjectsFromArray(["My Card"])
         self.navigationItem.rightBarButtonItem = self.addButton
+        self.navigationItem.leftBarButtonItem = self.addLeftButton
         self.view.addSubview(self.collectionView)
         self.navigationController?.hidesBarsWhenVerticallyCompact = true
     }
@@ -83,6 +94,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
        func addTapped() -> Void {
         self.addAlert.show()
+    }
+    func gotoNextVC(title:String) -> Void {
+//        let vc:NextViewController = NextViewController()
+        self.nextVC.title = title
+        self.navigationController?.pushViewController(self.nextVC, animated: true)
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
@@ -134,6 +150,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         return cell
     }
+    
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print("(\(indexPath.section),\(indexPath.row))")
+        self.gotoNextVC(self.items[indexPath.row] as! String)
+    }
+    
+
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView.contentSize.height > (self.view.bounds.height*0.8)) {
